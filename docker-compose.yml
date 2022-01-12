@@ -1,0 +1,68 @@
+version: "3.3"
+
+services:
+
+  articles:
+    container_name: articles-api
+    build:
+
+    ports:
+    - "8080:8080"
+    networks:
+      - postgres
+      - kafka
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: articlesapi
+      POSTGRES_PASSWORD: 123
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "80:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  kafka:
+    container_name: kafka
+    image: 'lensesio/box'
+    ports:
+      - 3030:3030
+      - 9092:9092
+    environment:
+      - ADV_HOST=127.0.0.1
+      - EULA=https://dl.lenses.stream/d/?id=3a672be3-7167-11ec-9ed6-42010af01003
+    networks:
+      - kafka
+
+
+
+networks:
+  kafka:
+    driver: bridge
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

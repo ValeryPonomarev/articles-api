@@ -4,3 +4,20 @@ server:
 spring:
   application:
     name: customer
+  jpa:
+    database: default
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/articles
+    username: 'articlesapi'
+    password: '123'
+
+kafka:
+  server: localhost:9092
+  group:
+    id: server.broadcast
+  producer:
+    id: articlesProducerId
