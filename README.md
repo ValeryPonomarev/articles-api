@@ -58,3 +58,16 @@ Service discovery - Eureka.
 # Data flow diagram
 
 # Добавление нового сервиса
+
+Для добавления нового сервиса можно воспользоватся следующей командой для создания пустого проекта:
+`mvn archetype:generate -DgroupId=com.lordpvi.articles -DartifactId=<serviceName> -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false`
+
+Можно так же воспользоваться архитипом, исходники которого имеются в этом проекте /architype. Он создаст CRUD сервис с H2 базой данных
+```
+mvn archetype:generate                    \
+-DarchetypeGroupId=com.lordpvi            \
+-DarchetypeArtifactId=crud-service        \
+-DarchetypeVersion=1.0                    \
+-DgroupId=com.lordpvi                     \
+-DartifactId=new-service
+```
