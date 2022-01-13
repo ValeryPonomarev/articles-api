@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: customer
+    name: articles-api
   jpa:
     database: default
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -21,3 +21,8 @@ kafka:
     id: server.broadcast
   producer:
     id: articlesProducerId
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}

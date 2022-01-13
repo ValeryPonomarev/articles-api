@@ -12,6 +12,8 @@ Service discovery - Eureka.
 # Сервисы
 
 - articles-api 8080. сервис для создания и редактирования статей.
+
+- discovery-service 8761
 - postgresql 5432 Credentails - articlesapi|123
 - pgadmin 80. Credentails - pgadmin4@pgadmin.org|123
 - lenses 3030 - мониторинг кафки. Credentails - admin|admin
