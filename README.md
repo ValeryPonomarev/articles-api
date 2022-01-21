@@ -7,19 +7,24 @@ Service discovery - Eureka.
 
 # Запуск
 
-Запустить в консоли: `docker-compose up -d`
+Пересобрать приложение: `mvn clean install`  
+Пересобрать docker compose images: `docker-compose build --force-rm --no-cache`  
+Запустить в консоли: `docker-compose up --build -d`  
+В случае возникновения ошибок, когда какой либо контейнер не поднялся можно посмотреть логи следующей командой: `docker-compose logs -f`  
+Посмотреть поднятые контейнеры: `docker-compose ps`    
+Остановить сервисы: `docker-compose down`
 
 # Сервисы
 
-- articles-api 8080. сервис для создания и редактирования статей.
+- articles-api http://localhost:8080. сервис для создания и редактирования статей.
 
-- discovery-service 8761
-- postgresql 5432 Credentails - articlesapi|123
-- pgadmin 80. Credentails - pgadmin4@pgadmin.org|123
-- lenses 3030 - мониторинг кафки. Credentails - admin|admin
-- kafka 9092
+- discovery-service http://localhost:8761
+- postgresql http://localhost:5432 Credentials - articlesapi|123
+- pgadmin http://localhost:80. Credentials - pgadmin4@pgadmin.org|123
+- lenses http://localhost:3030 - мониторинг кафки. Credentials - admin|admin
+- kafka http://localhost:9092
 
-Для кафки был использован образ lensesio/box - содержащий zookeeper + kafka + lenses. В качесте альтернативы можно использовать следующие образы:
+Для кафки был использован образ lensesio/box - содержащий zookeeper + kafka + lenses. В качестве альтернативы можно использовать следующие образы:
 ```yaml
   zookeeper:
     image: 'bitnami/zookeeper:latest'
@@ -61,7 +66,7 @@ Service discovery - Eureka.
 
 # Добавление нового сервиса
 
-Для добавления нового сервиса можно воспользоватся следующей командой для создания пустого проекта:
+Для добавления нового сервиса можно воспользоваться следующей командой для создания пустого проекта:
 `mvn archetype:generate -DgroupId=com.lordpvi.articles -DartifactId=<serviceName> -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false`
 
 Можно так же воспользоваться архитипом, исходники которого имеются в этом проекте /architype. Он создаст CRUD сервис с H2 базой данных

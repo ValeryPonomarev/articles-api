@@ -2,5 +2,7 @@ package com.lordpvi.articles.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ArticleRepository extends JpaRepository<Article, Integer> {
+import java.util.UUID;
+
+public interface ArticleRepository extends JpaRepository<Article, UUID> {
 }

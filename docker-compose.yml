@@ -2,17 +2,6 @@ version: "3.3"
 
 services:
 
-  articles:
-    container_name: articles-api
-    build:
-
-    ports:
-    - "8080:8080"
-    networks:
-      - postgres
-      - kafka
-    restart: unless-stopped
-
   postgres:
     container_name: postgres
     image: postgres
@@ -23,9 +12,10 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     networks:
-      - postgres
+      - articles-api
+#      - postgres
     restart: unless-stopped
 
   pgadmin:
@@ -38,9 +28,10 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - "80:80"
+      - 80:80
     networks:
-      - postgres
+      - articles-api
+#      - postgres
     restart: unless-stopped
 
   kafka:
@@ -50,14 +41,40 @@ services:
       - 3030:3030
       - 9092:9092
     environment:
-      - ADV_HOST=127.0.0.1
+      - ADV_HOST=kafka
       - EULA=https://dl.lenses.stream/d/?id=3a672be3-7167-11ec-9ed6-42010af01003
     networks:
+      - articles-api
+#      - kafka
+    restart: unless-stopped
+
+  discovery:
+    container_name: discovery
+    build: discovery-service
+    ports:
+    - 8761:8761
+    networks:
+      - articles-api
+    restart: unless-stopped
+
+  articles:
+    container_name: articles-api
+    build: articles
+    ports:
+      - 8080:8080
+    depends_on:
+      - discovery
+      - postgres
       - kafka
-
-
+    networks:
+      - articles-api
+#      - postgres
+#      - kafka
+    restart: unless-stopped
 
 networks:
+  articles-api:
+    driver: bridge
   kafka:
     driver: bridge
   postgres:
